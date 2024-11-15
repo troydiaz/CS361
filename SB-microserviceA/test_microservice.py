@@ -1,16 +1,18 @@
-# test_microservice.py
 import time
-from SBmicroserviceA import setup_test_reminder, get_reminders
+from SBmicroserviceA import setup_test_reminder, get_reminders, schedule
 
 # Set up a test reminder
-print("Setting a test reminder one minute from now.")
+print("Setting a test reminder 10 seconds from now.")
 setup_test_reminder()
 
-# Check the reminders JSON data after setting it up
+# Retrieve and display the reminders logged in reminders.json
 reminders = get_reminders()
 print("Current reminders logged in reminders.json:")
 print(reminders)
 
-# Keep the program running to allow time for notification
+# Run the scheduler loop to check for pending jobs
 print("Waiting for notification...")
-time.sleep(120)  # Wait for 2 minutes to allow notification to appear
+
+while True:
+    schedule.run_pending()  # Continuously checks for pending reminders
+    time.sleep(1)
